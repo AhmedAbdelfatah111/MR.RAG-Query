@@ -8,7 +8,7 @@ Built with **LangChain**, **FAISS**, **FastAPI**, and **Gradio** — using a fre
 
 ## Demo
 
-[![Watch the demo](https://img.shields.io/badge/YouTube-Demo%20Video-red?style=for-the-badge&logo=youtube)](https://www.youtube.com/watch?v=YOUR_VIDEO_ID)
+[![Watch the demo](https://img.shields.io/badge/YouTube-Demo%20Video-red?style=for-the-badge&logo=youtube)](https://youtu.be/9GkqIfLd1Sw)
 
 
 ---
@@ -29,7 +29,7 @@ Built with **LangChain**, **FAISS**, **FastAPI**, and **Gradio** — using a fre
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                        User Browser                         │
-│                    http://localhost:7860                     │
+│                    http://localhost:7860                    |
 └──────────────────────────┬──────────────────────────────────┘
                            │
                            ▼
@@ -38,16 +38,16 @@ Built with **LangChain**, **FAISS**, **FastAPI**, and **Gradio** — using a fre
 │                       ui/app.py                              │
 │                                                              │
 │   ┌──────────────┐    ┌──────────────────────────────────┐   │
-│   │  Upload Tab   │    │           Chat Tab                │   │
-│   │  PDF / DOCX   │    │  Question → Answer (with history) │   │
+│   │  Upload Tab   │    │           Chat Tab               │  |
+│   │  PDF / DOCX   │    │  Question → Answer (with history)│  |
 │   └──────┬───────┘    └──────────────┬───────────────────┘   │
 └──────────┼───────────────────────────┼───────────────────────┘
            │ POST /ingest              │ POST /rag/invoke
            ▼                           ▼
 ┌─────────────────────────────────────────────────────────────┐
-│                  FastAPI Backend (API)                        │
-│                    app/server.py                              │
-│                  http://localhost:8000                        │
+│                  FastAPI Backend (API)                      │
+│                    app/server.py                            │
+│                  http://localhost:8000                      │
 │                                                              │
 │   ┌────────────────┐  ┌──────────────┐  ┌────────────────┐   │
 │   │  /ingest       │  │ /rag/invoke  │  │  /summary/*    │   │
@@ -57,16 +57,16 @@ Built with **LangChain**, **FAISS**, **FastAPI**, and **Gradio** — using a fre
             │                  │
             ▼                  ▼
 ┌───────────────────┐  ┌──────────────────────────────────────┐
-│   Ingestion       │  │           RAG Chain                    │
-│  app/ingestion.py │  │         app/chains.py                  │
-│                   │  │                                        │
+│   Ingestion       │  │           RAG Chain                  │
+│  app/ingestion.py │  │         app/chains.py                │
+│                   │  │                                      │
 │  PDF/DOCX Loader  │  │  Query → Retriever → Prompt → LLM    │
-│       ↓           │  │                                        │
-│  Text Splitter    │  │  ┌─────────────┐  ┌────────────────┐   │
-│   (1000 chars)    │  │  │   FAISS     │  │  OpenRouter    │   │
-│       ↓           │  │  │  Retriever  │  │  (StepFun 3.5) │   │
-│  Embeddings       │  │  └─────────────┘  └────────────────┘   │
-│  (MiniLM-L6-v2)  │  └──────────────────────────────────────┘
+│       ↓           │  │                                      │
+│  Text Splitter    │  │  ┌─────────────┐  ┌────────────────┐ │
+│   (1000 chars)    │  │  │   FAISS     │  │  OpenRouter    │ │
+│       ↓           │  │  │  Retriever  │  │  (StepFun 3.5) │ │
+│  Embeddings       │  │  └─────────────┘  └────────────────┘ │
+│  (MiniLM-L6-v2)   │  └──────────────────────────────────────┘
 │       ↓           │
 │  FAISS Index      │
 │  (data/faiss_idx) │
@@ -139,6 +139,32 @@ smart-contract-assistant/
 | **Language**      | Python 3.10+                                                   |
 
 ---
+
+## LangServe
+
+This project uses [LangServe](https://github.com/langchain-ai/langserve) to serve LangChain chains as REST API endpoints with built-in support for streaming.
+
+**What LangServe provides:**
+
+- **`/summary/invoke`** — Invoke the summary chain via LangServe
+- **`/summary/stream`** — Stream summary results token-by-token
+- **`/summary/batch`** — Batch multiple summary requests
+- **`/summary/playground`** — Interactive web playground for testing the summary chain
+
+**Streaming (RAG chain):**
+
+The RAG chain is served via a custom `/rag/stream` endpoint using Server-Sent Events (SSE), enabling real-time token-by-token responses in the Gradio chat interface. The LLM is configured with `streaming=True` to support this.
+
+```python
+
+ChatOpenAI(
+    model=MODEL_NAME,
+    openai_api_key=OPENROUTER_API_KEY,
+    openai_api_base="https://openrouter.ai/api/v1",
+    streaming=True,  
+)
+
+```
 
 ## Getting Started
 
