@@ -1,6 +1,6 @@
-
 import gradio as gr
 import requests
+import json
 import os
 
 BACKEND_URL = "http://localhost:8000"
@@ -258,7 +258,6 @@ footer {
 }
 """
 
-# ── Backend functions ─────────────────────────────────────────────────────────
 
 def ingest_file(file, progress=gr.Progress()):
     if file is None:
@@ -294,23 +293,49 @@ def ingest_file(file, progress=gr.Progress()):
 
 def chat_response(message, history):
     if not message.strip():
-        return "Please enter a question."
+        yield "Please enter a question."
+        return
     try:
+        import json
+
         response = requests.post(
-            f"{BACKEND_URL}/rag/invoke",
+            f"{BACKEND_URL}/rag/stream",
             json={"input": message},
             timeout=120,
+            stream=True,
         )
-        if response.status_code == 200:
-            return response.json()["output"]
-        else:
-            return f"Error: {response.text}"
+
+        if response.status_code != 200:
+            yield f"Error: {response.text}"
+            return
+
+        partial = ""
+        for line in response.iter_lines(decode_unicode=True):
+            if not line or not line.startswith("data: "):
+                continue
+            data_str = line[len("data: "):]
+            try:
+                data = json.loads(data_str)
+                if isinstance(data, str):
+                    partial += data
+                    yield partial
+                elif isinstance(data, dict):
+                    token = data.get("output", data.get("content", ""))
+                    if token:
+                        partial += token
+                        yield partial
+            except json.JSONDecodeError:
+                continue
+
+        if not partial:
+            yield "No response received. Make sure a document has been uploaded."
+
     except requests.exceptions.Timeout:
-        return "Request timed out. Please try again."
+        yield "Request timed out. Please try again."
     except requests.exceptions.ConnectionError:
-        return "Cannot connect to the backend server."
+        yield "Cannot connect to the backend server."
     except Exception as e:
-        return f"Error: {e}"
+        yield f"Error: {e}"
 
 
 
@@ -348,7 +373,7 @@ with gr.Blocks(title="Smart Contract Assistant") as demo:
     gr.HTML("""
         <div class="app-header">
             <h1>Smart Contract Assistant</h1>
-            <p>Upload contracts and ask questions — powered by AI</p>
+            <p>Upload contracts and ask questions powered by AI</p>
         </div>
     """)
 
@@ -414,3 +439,5 @@ with gr.Blocks(title="Smart Contract Assistant") as demo:
 
 if __name__ == "__main__":
     demo.launch(server_name="0.0.0.0", server_port=7860, theme=theme, css=CUSTOM_CSS)
+
+

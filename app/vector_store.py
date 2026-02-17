@@ -1,4 +1,3 @@
-
 import os
 from langchain_community.vectorstores import FAISS
 from langchain_community.embeddings import HuggingFaceEmbeddings
@@ -22,4 +21,6 @@ def get_vector_store():
 
 def save_vector_store(vector_store):
     vector_store.save_local(VECTOR_STORE_PATH)
+
+
 

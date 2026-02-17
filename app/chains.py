@@ -1,4 +1,3 @@
-
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnablePassthrough, RunnableLambda
@@ -17,6 +16,7 @@ def get_llm():
         model=MODEL_NAME,
         openai_api_key=OPENROUTER_API_KEY,
         openai_api_base="https://openrouter.ai/api/v1",
+        streaming=True,
     )
 
 def get_rag_chain():
@@ -27,13 +27,16 @@ def get_rag_chain():
         prompt = ChatPromptTemplate.from_template("No documents available. Please upload a document first.")
         return prompt | model | StrOutputParser()
         
-    retriever = vector_store.as_retriever()
+    retriever = vector_store.as_retriever(search_kwargs={"k": 10})
     
-    template = """Answer the question based only on the following context:
-    {context}
+    template = """You are a helpful contract assistant. Answer the question thoroughly and accurately based on the following context from the uploaded document.
 
-    Question: {question}
-    """
+Context:
+{context}
+
+Question: {question}
+
+Provide a detailed and complete answer. If the information is found in the context, include specific details such as numbers, dates, and exact terms."""
     prompt = ChatPromptTemplate.from_template(template)
     model = get_llm()
     
@@ -56,4 +59,5 @@ def get_summary_chain():
     prompt = ChatPromptTemplate.from_template("Summarize the following content:\n\n{context}")
     chain = prompt | model | StrOutputParser()
     return chain
+
 
