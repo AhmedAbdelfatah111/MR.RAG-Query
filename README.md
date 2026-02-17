@@ -29,7 +29,7 @@ Built with **LangChain**, **FAISS**, **FastAPI**, and **Gradio** — using a fre
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                        User Browser                         │
-│                    http://localhost:7860                     │
+│                    http://localhost:7860                    |
 └──────────────────────────┬──────────────────────────────────┘
                            │
                            ▼
@@ -38,16 +38,16 @@ Built with **LangChain**, **FAISS**, **FastAPI**, and **Gradio** — using a fre
 │                       ui/app.py                              │
 │                                                              │
 │   ┌──────────────┐    ┌──────────────────────────────────┐   │
-│   │  Upload Tab   │    │           Chat Tab                │   │
-│   │  PDF / DOCX   │    │  Question → Answer (with history) │   │
+│   │  Upload Tab   │    │           Chat Tab               │  |
+│   │  PDF / DOCX   │    │  Question → Answer (with history)│  |
 │   └──────┬───────┘    └──────────────┬───────────────────┘   │
 └──────────┼───────────────────────────┼───────────────────────┘
            │ POST /ingest              │ POST /rag/invoke
            ▼                           ▼
 ┌─────────────────────────────────────────────────────────────┐
-│                  FastAPI Backend (API)                        │
-│                    app/server.py                              │
-│                  http://localhost:8000                        │
+│                  FastAPI Backend (API)                      │
+│                    app/server.py                            │
+│                  http://localhost:8000                      │
 │                                                              │
 │   ┌────────────────┐  ┌──────────────┐  ┌────────────────┐   │
 │   │  /ingest       │  │ /rag/invoke  │  │  /summary/*    │   │
@@ -57,16 +57,16 @@ Built with **LangChain**, **FAISS**, **FastAPI**, and **Gradio** — using a fre
             │                  │
             ▼                  ▼
 ┌───────────────────┐  ┌──────────────────────────────────────┐
-│   Ingestion       │  │           RAG Chain                    │
-│  app/ingestion.py │  │         app/chains.py                  │
-│                   │  │                                        │
+│   Ingestion       │  │           RAG Chain                  │
+│  app/ingestion.py │  │         app/chains.py                │
+│                   │  │                                      │
 │  PDF/DOCX Loader  │  │  Query → Retriever → Prompt → LLM    │
-│       ↓           │  │                                        │
-│  Text Splitter    │  │  ┌─────────────┐  ┌────────────────┐   │
-│   (1000 chars)    │  │  │   FAISS     │  │  OpenRouter    │   │
-│       ↓           │  │  │  Retriever  │  │  (StepFun 3.5) │   │
-│  Embeddings       │  │  └─────────────┘  └────────────────┘   │
-│  (MiniLM-L6-v2)  │  └──────────────────────────────────────┘
+│       ↓           │  │                                      │
+│  Text Splitter    │  │  ┌─────────────┐  ┌────────────────┐ │
+│   (1000 chars)    │  │  │   FAISS     │  │  OpenRouter    │ │
+│       ↓           │  │  │  Retriever  │  │  (StepFun 3.5) │ │
+│  Embeddings       │  │  └─────────────┘  └────────────────┘ │
+│  (MiniLM-L6-v2)   │  └──────────────────────────────────────┘
 │       ↓           │
 │  FAISS Index      │
 │  (data/faiss_idx) │
