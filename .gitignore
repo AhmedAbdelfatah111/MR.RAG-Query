@@ -1,0 +1,33 @@
+# Virtual environment
+venv/
+
+# Environment variables
+.env
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+
+# FAISS index (generated at runtime)
+data/faiss_index/
+
+# Uploaded files
+data/uploads/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Debug / temp scripts
+debug_key.py
+list_models.py
+verify_imports.py
+read_pdf.py

@@ -1,0 +1,14 @@
+langchain-openai
+langchain-community
+langchain-core
+langchain-text-splitters
+langserve
+faiss-cpu
+fastapi
+uvicorn
+gradio
+pypdf
+python-docx
+python-dotenv
+sse-starlette
+sentence-transformers
