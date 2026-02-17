@@ -8,7 +8,7 @@ Built with **LangChain**, **FAISS**, **FastAPI**, and **Gradio** — using a fre
 
 ## Demo
 
-[![Watch the demo](https://img.shields.io/badge/YouTube-Demo%20Video-red?style=for-the-badge&logo=youtube)](https://www.youtube.com/watch?v=YOUR_VIDEO_ID)
+[![Watch the demo](https://img.shields.io/badge/YouTube-Demo%20Video-red?style=for-the-badge&logo=youtube)](https://youtu.be/9GkqIfLd1Sw)
 
 
 ---
