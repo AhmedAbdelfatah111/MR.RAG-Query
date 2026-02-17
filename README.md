@@ -140,6 +140,32 @@ smart-contract-assistant/
 
 ---
 
+## LangServe
+
+This project uses [LangServe](https://github.com/langchain-ai/langserve) to serve LangChain chains as REST API endpoints with built-in support for streaming.
+
+**What LangServe provides:**
+
+- **`/summary/invoke`** — Invoke the summary chain via LangServe
+- **`/summary/stream`** — Stream summary results token-by-token
+- **`/summary/batch`** — Batch multiple summary requests
+- **`/summary/playground`** — Interactive web playground for testing the summary chain
+
+**Streaming (RAG chain):**
+
+The RAG chain is served via a custom `/rag/stream` endpoint using Server-Sent Events (SSE), enabling real-time token-by-token responses in the Gradio chat interface. The LLM is configured with `streaming=True` to support this.
+
+```python
+
+ChatOpenAI(
+    model=MODEL_NAME,
+    openai_api_key=OPENROUTER_API_KEY,
+    openai_api_base="https://openrouter.ai/api/v1",
+    streaming=True,  
+)
+
+```
+
 ## Getting Started
 
 ### Prerequisites
