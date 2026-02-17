@@ -5,7 +5,6 @@ import os
 import sys
 
 def run_services():
-    # Start Backend
     print("Starting Backend...")
     backend_env = os.environ.copy()
     backend_env["PYTHONIOENCODING"] = "utf-8"
@@ -14,10 +13,8 @@ def run_services():
         env=backend_env
     )
     
-    # Wait for backend to start
     time.sleep(5)
     
-    # Start Frontend
     print("Starting Frontend...")
     frontend = subprocess.Popen(
         [sys.executable, "-m", "ui.app"],
