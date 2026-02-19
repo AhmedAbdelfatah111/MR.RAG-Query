@@ -2,7 +2,7 @@
 
 An AI-powered document assistant that lets you upload PDF/DOCX contracts and ask questions about them using Retrieval-Augmented Generation (RAG).
 
-Built with **LangChain**, **FAISS**, **FastAPI**, and **Gradio** — using a free LLM via [OpenRouter](https://openrouter.ai) and local embeddings via Sentence Transformers.
+Built with **LangChain**, **FAISS**, **FastAPI**, and **Gradio**  using a free LLM via [OpenRouter](https://openrouter.ai) and local embeddings via Sentence Transformers.
 
 ---
 
