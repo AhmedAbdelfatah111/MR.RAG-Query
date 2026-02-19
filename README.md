@@ -15,12 +15,12 @@ Built with **LangChain**, **FAISS**, **FastAPI**, and **Gradio**  using a free L
 
 ## Features
 
-- **Document Ingestion** — Upload PDF or DOCX contracts, automatically chunked and embedded
-- **RAG Chat** — Ask questions and get answers grounded in your documents
-- **Local Embeddings** — Uses `all-MiniLM-L6-v2` (Sentence Transformers) 
-- **LLM** — Uses `stepfun/step-3.5-flash` via OpenRouter
-- **Professional Dark UI** — Clean, minimal Gradio interface 
-- **FastAPI Backend** — RESTful API with Swagger docs at `/docs`
+- **Document Ingestion**  Upload PDF or DOCX contracts, automatically chunked and embedded
+- **RAG Chat**  Ask questions and get answers grounded in your documents
+- **Local Embeddings**  Uses `all-MiniLM-L6-v2` (Sentence Transformers) 
+- **LLM**  Uses `stepfun/step-3.5-flash` via OpenRouter
+- **Professional Dark UI**  Clean, minimal Gradio interface 
+- **FastAPI Backend**  RESTful API with Swagger docs at `/docs`
 
 ---
 
